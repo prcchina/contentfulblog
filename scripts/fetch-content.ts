@@ -161,8 +161,6 @@ async function fetchAndSaveContent() {
         language = 'zh-cn',
       } = entry.fields;
       
-      // 提取主语言代码
-      const langPart = language.toLowerCase().split('-')[0];
       // Convert Rich Text to Markdown
       const markdownContent = await richTextToMarkdown(content, slug);
 
