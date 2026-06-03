@@ -158,9 +158,11 @@ async function fetchAndSaveContent() {
         description,
         slug,
         category,
-        language = 'en',
+        language = 'zh-cn',
       } = entry.fields;
-
+      
+      // 提取主语言代码
+      const langPart = language.toLowerCase().split('-')[0];
       // Convert Rich Text to Markdown
       const markdownContent = await richTextToMarkdown(content, slug);
 
@@ -173,12 +175,14 @@ updated: ${entry.sys.updatedAt}
 category: ${JSON.stringify(category || '')}
 tags: ${JSON.stringify(entry.metadata.tags.map((tag) => tag.sys.id))}
 draft: ${!entry.sys.publishedAt}
+lang: ${JSON.stringify(langPart)}
 ---
 
 ${markdownContent}`;
 
       // Save file with language code in the name
-      const fileName = `${slug}-${language}.md`;
+      const langPart = language.toLowerCase().split('-')[0];
+      const fileName = `${slug}-${langPart}.md`;
       const filePath = path.join(CONTENT_DIR, fileName);
       await fs.writeFile(filePath, fileContent, 'utf-8');
       console.log(`Saved: ${fileName}`);
