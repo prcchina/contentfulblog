@@ -160,7 +160,7 @@ async function fetchAndSaveContent() {
         category,
         language = 'zh-cn',
       } = entry.fields;
-      
+      const langPart = language.toLowerCase().split('-')[0];      
       // Convert Rich Text to Markdown
       const markdownContent = await richTextToMarkdown(content, slug);
 
@@ -179,7 +179,6 @@ lang: ${JSON.stringify(langPart)}
 ${markdownContent}`;
 
       // Save file with language code in the name
-      const langPart = language.toLowerCase().split('-')[0];
       const fileName = `${slug}-${langPart}.md`;
       const filePath = path.join(CONTENT_DIR, fileName);
       await fs.writeFile(filePath, fileContent, 'utf-8');
