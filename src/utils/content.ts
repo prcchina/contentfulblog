@@ -103,9 +103,10 @@ export async function getPosts(lang?: string) {
   const currentLang = lang || defaultLocale
   const posts = await readMarkdownFiles()
   
+  // 只过滤草稿，不过滤语言
   const filteredPosts = posts.filter(post => {
     const shouldInclude = import.meta.env.DEV || !post.data.draft
-    return shouldInclude && (post.data.lang === currentLang || post.data.lang === '')
+    return shouldInclude
   })
 
   const enhancedPosts = await Promise.all(filteredPosts.map(addMetaToPost))
